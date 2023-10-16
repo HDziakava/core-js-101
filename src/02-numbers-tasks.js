@@ -69,8 +69,10 @@ function getAverage(value1, value2) {
  *   (0,0) (1,0)    => 1
  *   (-5,0) (10,-10) => 18.027756377319946
  */
-function getDistanceBetweenPoints(/* x1, y1, x2, y2 */) {
-  throw new Error('Not implemented');
+function getDistanceBetweenPoints(x1, y1, x2, y2) {
+  const x = x2 - x1;
+  const y = y2 - y1;
+  return Math.sqrt(y * y + x * x);
 }
 
 /**
@@ -108,8 +110,14 @@ function getLinearEquationRoot(a, b) {
  *   (0,1) (0,1)     => 0
  *   (0,1) (1,2)     => 0
  */
-function getAngleBetweenVectors(/* x1, y1, x2, y2 */) {
-  throw new Error('Not implemented');
+function getAngleBetweenVectors(x1, y1, x2, y2) {
+  const a = x1 * y1 + x2 * y2;
+  const b = Math.sqrt(x1 * x1 + x2 * x2);
+  const c = Math.sqrt(y1 * y1 + y2 * y2);
+  const cos = a / (b * c);
+  const answer = Math.cos(cos) ** -1;
+
+  return answer;
 }
 
 /**
@@ -176,6 +184,7 @@ function getParallelepipedDiagonal(a, b, c) {
  *   1678, 1  => 1680
  *   1678, 2  => 1700
  *   1678, 3  => 2000
+ *   0, 10, 100, 1000
  */
 function roundToPowerOfTen(/* num, pow */) {
   throw new Error('Not implemented');
@@ -198,8 +207,20 @@ function roundToPowerOfTen(/* num, pow */) {
  *   16 => false
  *   17 => true
  */
-function isPrime(/* n */) {
-  throw new Error('Not implemented');
+function isPrime(n) {
+  let isNumPrime = true;
+
+  if (n <= 1) {
+    isNumPrime = false;
+  } else {
+    for (let i = 2; i <= Math.sqrt(n); i += 1) {
+      if (n % i === 0) {
+        isNumPrime = false;
+        break;
+      }
+    }
+  }
+  return isNumPrime;
 }
 
 /**
@@ -217,8 +238,11 @@ function isPrime(/* n */) {
  *   toNumber(42, 0) => 42
  *   toNumber(new Number(42), 0) => 42
  */
-function toNumber(/* value, def */) {
-  throw new Error('Not implemented');
+function toNumber(value, def) {
+  if (parseInt(value, 10)) {
+    return parseInt(value, 10);
+  }
+  return def;
 }
 
 module.exports = {

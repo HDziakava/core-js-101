@@ -63,8 +63,8 @@ function getStringFromTemplate(firstName, lastName) {
  *   'Hello, John Doe!' => 'John Doe'
  *   'Hello, Chuck Norris!' => 'Chuck Norris'
  */
-function extractNameFromTemplate(/* value */) {
-  throw new Error('Not implemented');
+function extractNameFromTemplate(value) {
+  return value.replace('Hello, ', '').replace('!', '');
 }
 
 /**
@@ -173,8 +173,8 @@ function convertToUpperCase(str) {
  *   ],
  *   'info@gmail.com' => ['info@gmail.com']
  */
-function extractEmails(/* str */) {
-  throw new Error('Not implemented');
+function extractEmails(str) {
+  return str.split(';');
 }
 
 /**
@@ -200,8 +200,20 @@ function extractEmails(/* str */) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  let result = '';
+  const widthCount = width - 2;
+
+  for (let i = 1; i <= height; i += 1) {
+    if (i === 1) {
+      result += `┌${''.padStart(widthCount, '─')}┐\n`;
+    } else if (i === height) {
+      result += `└${''.padStart(widthCount, '─')}┘\n`;
+    } else {
+      result += `│${''.padStart(widthCount, ' ')}│\n`;
+    }
+  }
+  return result;
 }
 
 /**
@@ -220,8 +232,22 @@ function getRectangleString(/* width, height */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const input = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  const output = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm';
+  const inputArr = input.split('');
+  const outputArr = output.split('');
+  const answer = [];
+
+  str.split('').forEach((letter) => {
+    const outputIndex = inputArr.findIndex((element) => element === letter);
+    if (outputIndex >= 0) {
+      answer.push(outputArr[outputIndex]);
+    } else {
+      answer.push(letter);
+    }
+  });
+  return answer.join('');
 }
 
 /**
@@ -265,8 +291,24 @@ function isString(value) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  const cardsSuits = ['♣', '♦', '♥', '♠'];
+  const letters = {
+    1: 'A',
+    11: 'J',
+    12: 'Q',
+    13: 'K',
+  };
+  const cards = cardsSuits
+    .map((suit) => {
+      const playingCards = [];
+      for (let i = 1; i <= 13; i += 1) {
+        playingCards.push(`${letters[i] || i}${suit}`);
+      }
+      return playingCards;
+    })
+    .flat();
+  return cards.indexOf(value);
 }
 
 module.exports = {
