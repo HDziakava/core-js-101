@@ -445,8 +445,16 @@ function toStringList(arr) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  *    ]
  */
-function sortCitiesArray(/* arr */) {
-  throw new Error('Not implemented');
+function sortCitiesArray(arr) {
+  return arr.sort((obj1, obj2) => {
+    let copmarison = 0;
+    if (obj1.country === obj2.country) {
+      copmarison = obj1.city < obj2.city ? -1 : 1;
+    } else {
+      copmarison = obj1.country < obj2.country ? -1 : 1;
+    }
+    return copmarison;
+  });
 }
 
 /**
@@ -467,8 +475,10 @@ function sortCitiesArray(/* arr */) {
  *           [0,0,0,1,0],
  *           [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  throw new Error('Not implemented');
+function getIdentityMatrix(n) {
+  return new Array(n)
+    .fill(new Array(n).fill(0))
+    .map((arr, index) => [...arr.slice(0, index), 1, ...arr.slice(index + 1)]);
 }
 
 /**
@@ -484,8 +494,9 @@ function getIdentityMatrix(/* n */) {
  *     0, 100 => [ 0, 1, 2, ..., 100 ]
  *     3, 3   => [ 3 ]
  */
-function getIntervalArray(/* start, end */) {
-  throw new Error('Not implemented');
+function getIntervalArray(start, end) {
+  const length = end - start + 1;
+  return new Array(length).fill(0).map((_, index) => start + index);
 }
 
 /**
@@ -499,8 +510,10 @@ function getIntervalArray(/* start, end */) {
  *   [ 'a', 'a', 'a', 'a' ]  => [ 'a' ]
  *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
  */
-function distinct(/* arr */) {
-  throw new Error('Not implemented');
+function distinct(arr) {
+  return arr
+    .filter((el, index) => arr.lastIndexOf(el) === index)
+    .sort((a, b) => a - b);
 }
 
 /**
@@ -533,8 +546,21 @@ function distinct(/* arr */) {
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
+function group(array, keySelector, valueSelector) {
+  const uniqueKeys = Array.from(new Set(array.map(keySelector)));
+  const map = new Map();
+
+  const getValuesByKey = (key) => array
+    .filter((item) => keySelector(item) === key)
+    .map(valueSelector);
+
+  uniqueKeys.map((key) => {
+    const values = getValuesByKey(key);
+    map.set(key, values);
+    return key;
+  });
+
+  return map;
 }
 
 /**
